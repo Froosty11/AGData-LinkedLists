@@ -1,4 +1,4 @@
-package com.company;
+package com;
 
 public class Main {
 
@@ -10,31 +10,52 @@ public class Main {
         LinkedList lsA = new LinkedList();
         long t_Start = 0;
         long t_total = 0;
-        long t_Sum;
-        long t_Min;
-        System.out.println("# n\taverage\tminimum");
-        int[] nlist = {5, 10, 20, 40, 800, 1600, 3200, 6400, 12800};
+        long ba_Sum, ba_Min, ab_Sum, ab_Min;
+        System.out.println("# n\tba-average\tba-minimum\tab-average\tab-minimum");
+        int[] nlist = { 10, 20, 40, 800, 1600, 3200, 6400, 12800};
         for (int n :
                 nlist) {
             int iterations = 100;
-            t_Sum = 0;
-            t_Min = (int)Double.POSITIVE_INFINITY;
+            ba_Sum = 0;
+            ba_Min = (int)Double.POSITIVE_INFINITY;
+            ab_Sum = 0;
+            ab_Min = (int)Double.POSITIVE_INFINITY;
             for(int i = 0; i < iterations; i ++){
-                lsB.clearList();
-                lsB.appendData(69);
+                lsB.clearChain();
+                lsB.addNode(69);
                 for (int j = 1; j < n; j++) {
-                    lsA.appendData(j);
+                    lsA.addNode(j);
                 }
                 t_Start = System.nanoTime();
 
-                LinkedList.appendNode(lsB.getNode(5));
+                lsB.addNode(lsA.getNode(1));
                 //After this, both lsA and lsB refrence the start, 5.
 
                 t_total =  System.nanoTime()-t_Start;
-                t_Sum += t_total;
-                if(t_Sum < t_Min) t_Min = t_Sum;
+                ba_Sum += t_total;
+                if(ba_Sum < ba_Min) ba_Min = ba_Sum;
+                //lsB.printList();
+
+
+                //System.out.println("\n -------------------------------------------------------------");
+                lsA.clearChain();
+                lsB.clearChain();
+
+                lsA.addNode(420);
+                for (int j = 1; j < n; j++) {
+                    lsB.addNode(j);
+                }
+                t_Start = System.nanoTime();
+                LinkedList.Node t = lsA.getNode(420);
+                lsB.addNode(t);
+                t_total =  System.nanoTime()-t_Start;
+                ab_Sum += t_total;
+                if(ab_Sum < ab_Min) ab_Min = ab_Sum;
+                //lsB.printList();
+
             }
-            System.out.printf("%d\t%d\t%d\n", n, t_Min, t_Sum/iterations);
+            //System.out.println("\n -------------------------------------------------------------");
+            System.out.printf("%d\t%d\t%d\t%d\t%d\n", n, ba_Min, ba_Sum/iterations,ab_Min, ab_Sum/iterations);
         }
     }
 }
